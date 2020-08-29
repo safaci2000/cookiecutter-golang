@@ -1,5 +1,6 @@
 # Build Stage
-FROM {{cookiecutter.docker_build_image}}:{{cookiecutter.docker_build_image_version}} AS build-stage
+#FROM {{cookiecutter.docker_build_image}}:{{cookiecutter.docker_build_image_version}} AS build-stage
+FROM golang:{{cookiecutter.docker_build_image_version}}  AS build-stage
 
 LABEL app="build-{{cookiecutter.app_name}}"
 LABEL REPO="https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}"
@@ -15,7 +16,7 @@ WORKDIR /go/src/github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_n
 RUN make build-alpine
 
 # Final Stage
-FROM {{cookiecutter.docker_image}}
+FROM golang:{{cookiecutter.docker_build_image_version}} 
 
 ARG GIT_COMMIT
 ARG VERSION
@@ -29,10 +30,16 @@ ENV PATH=$PATH:/opt/{{cookiecutter.app_name}}/bin
 WORKDIR /opt/{{cookiecutter.app_name}}/bin
 
 COPY --from=build-stage /go/src/github.com/{{cookiecutter.github_username}}/{{cookiecutter.app_name}}/bin/{{cookiecutter.app_name}} /opt/{{cookiecutter.app_name}}/bin/
-RUN chmod +x /opt/{{cookiecutter.app_name}}/bin/{{cookiecutter.app_name}}
+RUN \
+    apt-get update && \
+    apt install -y dumb-init  && \
+    apt-get clean autoclean && \
+    apt-get autoremove --yes && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
+    chmod +x /opt/{{cookiecutter.app_name}}/bin/{{cookiecutter.app_name}} 
 
 # Create appuser
-RUN adduser -D -g '' {{cookiecutter.app_name}}
+RUN useradd -m  {{cookiecutter.app_name}}
 USER {{cookiecutter.app_name}}
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
