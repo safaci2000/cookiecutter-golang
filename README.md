@@ -15,13 +15,14 @@ Powered by [Cookiecutter](https://github.com/audreyr/cookiecutter), Cookiecutter
 - Can use [viper](https://github.com/spf13/viper) for env var config
 - Can use [cobra](https://github.com/spf13/cobra) for cli tools
 - Can use [logrus](https://github.com/sirupsen/logrus) for logging
+- Can use [go-funk](https://github.com/thoas/go-funk) for collection manipulation
 - Can create dockerfile for building go binary and dockerfile for final go binary (no code in final container)
 - If docker is used adds docker management commands to makefile
-- Option of TravisCI, CircleCI or None
+- Option of TravisCI, or None
 
 ## Constraints
 
-- Uses `dep` or `mod` for dependency management
+- Uses `mod` for dependency management
 - Only maintained 3rd party libraries are used.
 
 This project now uses docker multistage builds, you need at least docker version v17.05.0-ce to use the docker file in this template, [you can read more about multistage builds here](https://www.critiqus.com/post/multi-stage-docker-builds/).
