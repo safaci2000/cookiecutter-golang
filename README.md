@@ -67,8 +67,7 @@ github_username [lacion]: lacion
 app_name [mygolangproject]: echoserver
 project_short_description [A Golang project.]: Awesome Echo Server
 docker_hub_username [lacion]: lacion
-docker_image [lacion/docker-alpine:latest]: lacion/docker-alpine:latest
-docker_build_image [lacion/docker-alpine:gobuildimage]: lacion/docker-alpine:gobuildimage
+docker_image [golang]: 
 use_docker [y]: y
 use_git [y]: y
 use_logrus_logging [y]: y
@@ -76,7 +75,7 @@ use_viper_config [y]: y
 use_cobra_cmd [y]: y
 Select use_ci:
 1 - travis
-2 - circle
+2 - droneci
 3 - none
 Choose from 1, 2, 3 [1]: 1
 ```
